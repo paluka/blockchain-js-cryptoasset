@@ -10,7 +10,9 @@ const api = new Router();
 api.use('/', blockchainRouter.routes());
 app.use(api.routes());
 
-const blockchain = new Blockchain();
+const localNodeUrl = process.argv[3];
+const peer = process.argv[4];
+const blockchain = new Blockchain(localNodeUrl, peer);
 
 const PORT = process.env.PORT || 3001;
 console.log(`Starting on server on port ${PORT}`);

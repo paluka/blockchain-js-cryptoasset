@@ -1,24 +1,39 @@
 import sha256 from 'sha256';
+import rp from 'request-promise';
+import { v4 as uuidv4 } from 'uuid';
+
 import { BLOCK_SIZE_BYTES } from './constants';
 import Block from './block';
 
-const localNodeUrl = process.argv[3];
-
 export default class Blockchain implements BlockchainType {
+  address: string;
   chain: BlockType[];
   consensusAlgorithm: ConsensusAlgorithmType;
   transactionPool: TransactionType[];
   localNodeUrl: string;
   peers: string[];
 
-  constructor() {
+  constructor(localNodeUrl, peer = null) {
+    this.address = uuidv4.split('-').join('');
     this.chain = [];
     this.transactionPool = [];
     this.localNodeUrl = localNodeUrl;
-    this.peers = [];
+    this.peers = peer ? [peer] : [];
     this.setConsensusAlgorithm(this.proofOfWork);
+  }
+
+  start(): void {
+    if (this.peers.length) {
+      this.registerWithPeer();
+      this.syncBlockchain();
+    }
+
     this.mine();
   }
+
+  registerWithPeer() {}
+
+  syncBlockchain() {}
 
   setConsensusAlgorithm(consensusAlgorithm: ConsensusAlgorithmType): void {
     this.consensusAlgorithm = consensusAlgorithm;

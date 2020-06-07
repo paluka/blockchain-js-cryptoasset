@@ -1,6 +1,6 @@
 import koaRouter from 'koa-router';
-import { someEndpoint } from './blockchain.controller';
+import { start } from './blockchain.controller';
 
-const blockchainRouter = koaRouter().post('/someEndpoint', someEndpoint);
+const blockchainRouter = koaRouter().post('/start', start);
 
 export default blockchainRouter;

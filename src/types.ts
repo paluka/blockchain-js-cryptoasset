@@ -1,5 +1,7 @@
 interface BlockchainType {
+  address: string;
   chain: BlockType[];
+  consensusAlgorithm: ConsensusAlgorithmType;
   transactionPool: TransactionType[];
   localNodeUrl: string;
   peers: string[];
